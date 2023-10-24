@@ -18,7 +18,6 @@ class AuthController {
   }
   editProfile(req:Request,res:Response){
     const loginSession = res.locals.loginSession;
-    console.log("LOGIN SESI NIH BOS con",loginSession)
     AuthService.editProfile(req,res)
     return  res.status(200).json("Update Succes");
   }

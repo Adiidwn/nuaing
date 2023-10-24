@@ -6,25 +6,23 @@ import { Thread } from "../entity/Thread";
 import { User } from "../entity/User";
 import * as jwt from "jsonwebtoken";
 import * as bcrypt from "bcrypt";
-import { creatThreadSchema, loginThreadSchema } from "../utils/validators/thread";
+import { creatThreadSchema, loginThreadSchema } from "../utils/validators/joi";
 
 class AuthService {
   private readonly authRepository: Repository<User> =
     AppDataSource.getRepository(User);
 
-
-    async find(req: Request, res: Response) {
-      try{
+  async find(req: Request, res: Response) {
+    try {
       const users = await this.authRepository.find({
         // take: 4,
-        
       });
-     
+
       return res.status(200).json(users);
-    }catch(err){
-      return res.status(500).json("something error")
+    } catch (err) {
+      return res.status(500).json("something error");
     }
-    }
+  }
 
   async register(req: Request, res: Response) {
     try {
@@ -98,41 +96,42 @@ class AuthService {
         return res.status(400).json({ error: error });
       }
 
-      const checkEmail = await this.authRepository.findOne(
-        {
-            where : {
-                email: value.email,
-                
-            },
-            select:["id", "fullname","username","email","password" ]
-        }
-      )
+      const checkEmail = await this.authRepository.findOne({
+        where: {
+          email: value.email,
+        },
+        select: ["id", "fullname", "username", "email", "password", "picture"],
+      });
 
-      if (!checkEmail){
-        return res.status(400).json ("Error Email / password is wrong")
+      if (!checkEmail) {
+        return res.status(400).json("Error Email / password is wrong");
       }
 
-
-      const password =await bcrypt.compare(value.password, checkEmail.password)
+      const password = await bcrypt.compare(
+        value.password,
+        checkEmail.password
+      );
       if (!password) {
         return res.status(400).json({
-            error : "Email/passwrod is wrong!"
-        })
+          error: "Email/passwrod is wrong!",
+        });
       }
-      
+
       const user = {
         id: checkEmail.id,
         fullname: checkEmail.fullname,
         username: checkEmail.username,
         email: checkEmail.email,
+        picture: checkEmail.picture,
       };
 
-      const token = jwt.sign(user,"lalala",{
-        expiresIn:"1h"})
-      
+      const token = jwt.sign(user, "lalala", {
+        expiresIn: "100000h",
+      });
+
       return res.status(200).json({
         user,
-        token
+        token,
       });
     } catch (error) {
       return res.status(500).json("Theres an error ");
@@ -147,7 +146,7 @@ class AuthService {
         where: {
           id: loginSession.id,
         },
-        select: ["id", "fullname", "username", "email", "password"],
+        select: ["id", "fullname", "username", "email", "password", "picture"],
       });
 
       return res.status(200).json({
@@ -159,45 +158,36 @@ class AuthService {
     }
   }
 
-  async editProfile(req: Request, loginSession:any) {
+  async editProfile(req: Request, loginSession: any) {
     try {
-      console.log("login session service",loginSession.locals.loginSession)
       const data = req.body;
-      const checkEmail = await this.authRepository.findOne(
-        {
-            where : {
-                email: loginSession.locals.loginSession.email,
-                
-            },
-            select:["id", "fullname","username","email","password","picture" ]
+      const checkEmail = await this.authRepository.findOne({
+        where: {
+          email: loginSession.locals.loginSession.email,
         },
-      )
-      if (!checkEmail){
-        throw new Error("Error Email / password is wrong")
+        select: ["id", "fullname", "username", "email", "password", "picture"],
+      });
+      if (!checkEmail) {
+        throw new Error("Error Email / password is wrong");
       }
-      console.log("checkEmail ser",checkEmail)
+
       const user = this.authRepository.create({
         id: checkEmail.id,
         fullname: data.fullname,
         username: data.username,
         picture: data.picture,
       });
-     
+
       // console.log("id nih service",loginSession.loginSession)
       const editProfile = await this.authRepository.save(user);
-      console.log("editUser ini apa ya", editProfile);
       return {
         message: "update profile Succes",
-        editProfile
-      }
+        editProfile,
+      };
     } catch (err) {
-     throw new Error(err.message)
+      throw new Error(err.message);
     }
-
- 
   }
-  
-    
 }
 
 export default new AuthService();

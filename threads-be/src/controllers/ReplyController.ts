@@ -3,12 +3,20 @@ import ReplyService from "../service/ReplyService";
 
 
 class ReplyController {
-  find(req:Request,res:Response){
-    ReplyService.find(req)
+  async find(req: Request, res: Response) {
+    try {
+      const response = await ReplyService.find(req.body);
+
+      console.log("req controller",req.body)
+      console.log("req query controller",req.query)
+      console.log("response controller",response)
+      return res.status(200).json(response);
+    } catch (error) {
+      return res
+        .status(500)
+        .json({ error: error.message });
+    }
   }
-  // findOne(req:Request,res:Response){
-  //   ReplyService.findOne(req,res)
-  // }
   async create(req: Request, res: Response) {
     try {
       const loginSession = res.locals.loginSession;

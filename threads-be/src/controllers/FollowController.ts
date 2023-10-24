@@ -1,9 +1,20 @@
 import { Request, Response } from "express";
-import LikeService from "../service/LikeService";
-import { log } from "console";
 import FollowService from "../service/FollowService";
 
 class FollowController {
+
+  // async find(req: Request, res: Response){
+  //   try {
+  //     const loginSession = res.locals.loginSession;
+  //     const limit = (req.query.limit ?? 0) as number;
+  //     const type = (req.query.type ?? "") as string;
+    
+  //   const response = await FollowService.find(loginSession,type,limit);
+  //   return res.status(200).json(response)
+  //   } catch (err) {
+  //     return res.status(500).json({ error: err.message });
+  //   }
+  // }
   async create(req: Request, res: Response) {
     try {
       const loginSession = res.locals.loginSession;

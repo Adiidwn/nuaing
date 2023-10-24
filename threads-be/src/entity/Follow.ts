@@ -7,9 +7,6 @@ import { Thread } from "./Thread"
 
 @Entity( {name: "follows"})
 export class Follow {
-    static find(req: Request<ParamsDictionary, any, any, ParsedQs, Record<string, any>>, res: Response<any, Record<string, any>>) {
-      throw new Error("Method not implemented.")
-    }
 
     @PrimaryGeneratedColumn()
     id: number
@@ -20,13 +17,13 @@ export class Follow {
       onDelete:"CASCADE",
       onUpdate:"CASCADE"
     })
-  followings:User;
+  follower:User;
 
   @ManyToOne(()=> User, (user)=> user.followers,{
     onDelete:"CASCADE",
     onUpdate:"CASCADE"
   })
-  followers:User;
+  followed:User;
 
 
 

@@ -1,8 +1,8 @@
-import { AppDataSource } from "./data-source"
-import { Thread } from "./entity/Thread"
 import * as express from "express"
-import {Request,Response} from "express"
+import { Request, Response } from "express"
+import { AppDataSource } from "./data-source"
 import router from "./route"
+
 
 AppDataSource.initialize().then(async () => {
     const app = express()

@@ -38,8 +38,6 @@ export class User {
     onUpdate:"CASCADE"
   })
   thread: Thread[];
-
-
  
   @OneToMany(()=> Like, (likes)=> likes.user,{
     onDelete:"CASCADE",
@@ -47,13 +45,13 @@ export class User {
   })
   likes: Like[];
 
-  @OneToMany(()=> Follow, (follows)=> follows.followers,{
+  @OneToMany(()=> Follow, (follows)=> follows.follower,{
     onDelete:"CASCADE",
     onUpdate:"CASCADE"
   })
   followers: Follow[];
   
-  @OneToMany(()=> Follow, (follows)=> follows.followings,{
+  @OneToMany(()=> Follow, (follows)=> follows.followed,{
     onDelete:"CASCADE",
     onUpdate:"CASCADE"
   })

@@ -1,21 +1,94 @@
 import { Repository } from "typeorm";
 import { AppDataSource } from "../data-source";
-import { Like } from "../entity/Likes";
-import { Request, Response } from "express";
 import { Follow } from "../entity/Follow";
 import { User } from '../entity/User';
 
 class FollowService {
   private readonly followRepository: Repository<Follow> = AppDataSource.getRepository(Follow)
 
+  private readonly userRepository: Repository<User> = AppDataSource.getRepository(User)
+
+  // async find (loginSession: any, queryType?: string, queryLimit?: number): Promise<any> {
+  //   try {
+  //     let follows: Follow[] 
+
+  //     if (queryType === "followed") {
+  //       follows = await this.followRepository.find({
+  //         take: queryLimit,
+  //         where: {
+  //           follower: {
+  //             id: loginSession.id,
+  //           },
+  //         },
+  //         relations: ["follower","followed"],
+  //       });
+
+  //       return follows.map((follow) => ({
+  //         id: follow.id,
+  //         userId: follow.followed.id,
+  //         username: follow.followed.username,
+  //         fullname: follow.followed.fullname,
+  //         email: follow.followed.email,
+  //         picture: follow.followed.picture,
+  //         description: follow.followed.description,
+  //         isFollow: true,
+  //       }));
+  //     } else if (queryType === "followed") {
+  //       follows = await this.followRepository.find({
+  //         take: queryLimit,
+  //         where: {
+  //           followed: {
+  //             id: loginSession.id,
+  //           },
+  //         },
+  //         relations: ["followed","follower"]
+  //       }),
+         
+  //       return await Promise.all(
+  //         follows.map(async (follow) => {
+  //           const isFollowed = await this.followRepository.count({
+  //             where: {
+  //               follower: {
+  //                 id: loginSession.user.id,
+  //               },
+  //               followed: {
+  //                 id: follow.follower.id,
+  //               },
+  //             },
+  //           });   
+            
+
+  //           return {
+  //             id: follow.id,
+  //             userId: follow.follower.id,
+  //             username: follow.follower.username,
+  //             fullname: follow.follower.fullname,
+  //             email: follow.follower.email,
+  //             picture: follow.follower.picture,
+  //             description: follow.follower.description,
+  //             isFollow: isFollowed > 0,
+  //           };
+  //         })
+  //       );
+  //     }
+
+  //     return {
+  //       message: `Please specify valid query "type" (follower / followed) `
+  //     };
+  //   } catch (err) {
+  //     throw new Error(err.message);
+  //   }
+  // }
+
+
   async create (reqBody: any, loginSession: any): Promise<any> {
     try {
       const isFollow = await this.followRepository.count ({
         where: {
-          followers: {
+          follower: {
             id:loginSession.id,
           },
-          followings: {
+          followed: {
             id: reqBody.userId,
           },
         },
@@ -26,10 +99,10 @@ class FollowService {
       }
       
       const follow = this.followRepository.create({
-        followers: {
+        follower: {
           id: loginSession.id,
         },
-        followings: {
+        followed: {
           id: reqBody.userId,
         },
       })
@@ -48,10 +121,10 @@ class FollowService {
     try {
       const deleteFollow = await this.followRepository.findOne ({
         where: {
-          followers: {
+          follower: {
             id: loginSession.id,
           },
-          followings: {
+          followed: {
             id: userId,
           },
         },

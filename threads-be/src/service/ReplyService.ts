@@ -11,6 +11,9 @@ class ReplyService {
   async find(reqQuery: any ): Promise<any> {
     try{
       const threadId = parseInt(reqQuery.threadId ?? 0)
+      console.log('====================================');
+      console.log("threadId service",threadId);
+      console.log('====================================');
 
       const reply = await this.replyRepository.find({
         relations:["user"],
@@ -23,7 +26,7 @@ class ReplyService {
           id : "DESC"
         },
       })
-
+      console.log("reply ser",reply)
      return reply
     }catch(err){
       throw new Error("Error find replys")

@@ -29,17 +29,18 @@ export class Thread {
 
     @Column({nullable:true})
     Comment:string
+
     // @Column()
     // likes: number
 
     // @Column({nullable:true})
     // replies: number
 
-    // @Column({nullable:true})
-    // isLikes:boolean
+    @Column({nullable:true})
+    isLikes:boolean
 
-    // @Column({nullable:true})
-    // isReply:boolean
+    @Column({nullable:true})
+    isReply:boolean
 
     @ManyToOne(()=> User, (user)=> user.thread)
     user:User[];
@@ -49,6 +50,7 @@ export class Thread {
       onUpdate:"CASCADE"
     })
     likes: Like[];
+
     @OneToMany(()=> Reply, (replies)=> replies.thread,{
       onDelete:"CASCADE",
       onUpdate:"CASCADE"
