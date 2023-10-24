@@ -1,10 +1,14 @@
+import { ThreadCard } from "@/layouts/ThreadCard";
+import { apiAxios } from "@/library/api";
+import { useState, useEffect } from "react";
+
 const First = () => {
 
   const [Threads, setThread] = useState<ThreadCard[]>
   ([]
   );
   
-
+ 
   const fetchData = async () => {
    
       const response = await apiAxios.get("/thread",{

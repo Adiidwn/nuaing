@@ -1,28 +1,22 @@
 'use client'
 
-import { useState } from 'react';
-import { TiAttachmentOutline } from "react-icons/ti";
-import Post from "@/hooks/post";
+import Post from '@/hooks/post';
 import {
   Box,
   Button,
   Icon,
-  Input,
-  InputGroup,
-  InputLeftElement
+  Input
 } from '@chakra-ui/react';
+import { TiAttachmentOutline } from "react-icons/ti";
+
 
 
 
 export default function PostContent() {
  
-  // const [state, setState] = useState<'initial' | 'submitting' | 'success'>('initial')
-  // const [_, setError] = useState(false)
-  const {submitHandle,handleContentChange,handleImageChange}= Post()
-  const [name, setName] = useState("");
-  // const [selectedFile, setSelectedFile] = useState();
+  const {submitHandle, handleContentChange, handleImageChange}= Post()
   return (
-    <Box className="Post" display={"flex"} flexDirection={"column"} h={"200px"} w={"390px"} ml={"200px"} >
+    <Box className="Post" display={"flex"} flexDirection={"column"} h={"120px"} w={"400px"} ml={"280px"} >
     <form>
       <Input
         type="text"

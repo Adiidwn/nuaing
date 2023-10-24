@@ -1,9 +1,7 @@
-import SignupCard from "@/components/Regist"
+import SignupCard from "@/components/Regist";
 
-function Regist(){
-return(
-  <SignupCard/>
-)
+function Regist() {
+  return <SignupCard />;
 }
 
-export default Regist
+export default Regist;

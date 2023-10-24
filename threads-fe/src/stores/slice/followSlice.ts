@@ -1,4 +1,3 @@
-
 import { IFollow } from "@/interfaces/User";
 import { createSlice } from "@reduxjs/toolkit";
 

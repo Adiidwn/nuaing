@@ -20,7 +20,7 @@ import { ThreadCard } from '.';
 
 export default function SocialProfileWithImage() {
   const [profile, setProfile] = useState <ThreadCard>();
- 
+  console.log("profile",profile)
   async function UserDetail(){
     try{
       const response = await apiAxios.get("/auth/check")
@@ -60,7 +60,7 @@ export default function SocialProfileWithImage() {
           <Avatar
             size={'xl'}
             src={
-              'https://yt3.googleusercontent.com/cSd7Mc9wQuFn6MLv2zKEZf2Z9j5WIhazJZwxBSY4Rz3B0qVVoDzKmPh9SRLt5PHZFvXOG1fSbg=s900-c-k-c0x00ffffff-no-rj'
+              profile?.user?.picture
             }
             css={{
               border: '2px solid white',

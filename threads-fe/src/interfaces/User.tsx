@@ -1,3 +1,4 @@
+
 export interface IUser {
   id?: number;
   fullname?: string;
@@ -10,42 +11,23 @@ export interface IUser {
   followers?: number;
   following?: number;
 }
-export interface IDeleteThread {
-  image?: string;
-  content?: string;
-  
-  }
-
 
 export interface IUserRegister {
-fullname: string;
-email: string;
-username: string;
-password: string;
-
+  fullname: string;
+  email: string;
+  username: string;
+  password: string;
 }
 
-
 export interface IUserLogin {
-email: string;
-password: string;
-
+  email: string;
+  password: string;
 }
 export interface IUserLoginOn {
   id?: number;
   fullname: string;
   username?: string;
   picture?: string;
-  }
-
-export interface ICommentThread {
-  id?: number;
-  content?: string;
-  image?: string;
-  postedAt?: string;
-  likes?: number;
-  reply?: number;
-  user?: IUser;
 }
 
 export interface IUserList {

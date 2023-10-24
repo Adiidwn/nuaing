@@ -15,6 +15,7 @@ function ProfileUser (){
     try {
       const response = await apiAxios.get("/thread");
       setThread(response.data);
+      console.log("profile",response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -64,7 +65,7 @@ return e ? (
             <Heading fontSize={'2xl'} fontWeight={500} fontFamily={'body'}>
             {e.user?.fullname}
             </Heading>
-            <Text color={'gray.500'}>Influencer</Text>
+            <Text color={'gray.500'}>Description</Text>
           </Stack>
 
           <Stack direction={'row'} justify={'center'} spacing={6}>
