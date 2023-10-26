@@ -17,7 +17,7 @@ export interface User {
 export interface IThreadPost {
   id?: number;
   content?: string;
-  image?: string | Blob;
+  image?: Blob | File | null;
 }
 
 export interface ThreadCard {

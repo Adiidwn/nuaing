@@ -4,6 +4,7 @@ import { v2 as cloudinary } from "cloudinary";
 import { Request, Response } from "express";
 import { AppDataSource } from "../data-source";
 import { Thread } from "../entity/Thread";
+import { promises } from "dns";
 class ThreadService {
   private readonly threadRepository: Repository<Thread> =
     AppDataSource.getRepository(Thread);
@@ -80,19 +81,21 @@ class ThreadService {
   //   return res.status(200).json(threads);
   // }
 
-  async create(req: Request, res: Response) {
-    const { content } = req.body;
+  async create(req: Request, res: Response): Promise<any> {
+    const fileName = res.locals.filename;
+    const datas = req.body.content;
     const loginSession = res.locals.loginSession;
-    console.log("LOGIN SESI CREATE", loginSession);
+    console.log("LOGIN SESI CREATE service", loginSession);
+    console.log("fileName CREATE service", fileName);
+    console.log("contdata", datas);
+    console.log("res locals filename", res.locals.filename);
 
     // console.log("USERLOGIN NIH",loginSession)
 
     try {
-      const filename = res.locals.filename;
-      console.log("filename", filename);
       const data = this.threadRepository.create({
-        content: content,
-        image: filename,
+        content: datas,
+        image: fileName,
         user: loginSession,
       });
       console.log("ini data boss", data);
@@ -104,7 +107,7 @@ class ThreadService {
       });
 
       const cloudinaryResponse = await cloudinary.uploader.upload(
-        "./uploads/" + filename
+        "./uploads/" + fileName
       );
 
       console.log("cloudinary apaan nih", cloudinaryResponse);
@@ -117,9 +120,9 @@ class ThreadService {
 
       const createdThread = await this.threadRepository.save(thread);
 
-      return res.status(200).json("Posted");
+      return res.status(200).json(createdThread); // Send the response here
     } catch (err) {
-      return res.status(500).json(err);
+      return res.status(500).json(err); // Send the error response here
     }
   }
   async delete(req: Request, res: Response) {

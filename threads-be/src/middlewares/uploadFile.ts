@@ -12,7 +12,7 @@ export const upload = (fieldName: string) => {
     },
   });
 
-  const uploadFile = multer({ storage: storage });
+  const uploadFile = multer({ storage });
 
   return (req: Request, res: Response, next: NextFunction) => {
     uploadFile.single(fieldName)(req, res, function (error: any) {
@@ -21,6 +21,10 @@ export const upload = (fieldName: string) => {
       }
 
       res.locals.filename = req.file.filename;
+      console.log('====================================');
+      console.log("res.locals.filename midleware:",res.locals.filename);
+      console.log("req.file.filename midleware:",req.file.filename);
+      console.log('====================================');
       next();
     });
   };

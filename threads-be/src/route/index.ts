@@ -21,7 +21,7 @@ router.get("/", (req,res) =>{
 router.get("/thread/", authenticate, ThreadsController.find)
 router.get("/thread/:id", authenticate, ThreadsController.findOne)
 // router.get("/detail/:id",authenticate, ThreadsController.DetailList)
-router.post("/thread/", authenticate,upload('image'), ThreadsController.create)
+router.post("/thread/",authenticate,upload('image'), ThreadsController.create)
 router.delete("/thread/:id", authenticate, ThreadsController.delete)
 router.patch("/thread/:id", ThreadsController.update)
 

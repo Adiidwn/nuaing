@@ -3,12 +3,11 @@ import { useDispatch } from "react-redux";
 import { Route, Routes, useNavigate } from "react-router-dom";
 import Regist from "./components/Regist";
 import { apiAxios, setAuthToken } from "./library/api";
-import Home from "./pages/home/Home";
 import PUser from "./pages/home/ProfileUser";
 import SignIn from "./pages/home/Signin";
 import TDetails from "./pages/home/ThreadDetails";
 import { AUTH_CHECK, AUTH_ERROR } from "./stores/rootReducer";
-import PEdit from "./pages/home/ProfileEdit";
+import Home from "./pages/home/Home";
 
 function App() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -47,7 +46,7 @@ function App() {
           <Route path="/profile/:id" element={<PUser />}></Route>
           <Route path="/auth/register" element={<Regist />}></Route>
           <Route path="/auth/signin" element={<SignIn />}></Route>
-          <Route path="/profileEdit/:id" element={<PEdit />}></Route>
+          {/* <Route path="/profileEdit/:id" element={<PEdit />}></Route> */}
         </Routes>
       )}
     </>

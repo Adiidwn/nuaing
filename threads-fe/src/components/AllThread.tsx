@@ -1,10 +1,10 @@
 import { ThreadCard } from "@/features/thread";
-import { threadCard } from "@/hooks/details/threadCard";
+import { useThreads } from "@/hooks/details/threadCard";
 import { Box, Button, Icon, Input } from "@chakra-ui/react";
 import { TiAttachmentOutline } from "react-icons/ti";
 
 const Threads = () => {
-  const { handleChange, handlePost, threads } = threadCard();
+  const { handleChange, handlePost, threads } = useThreads();
   return (
     <>
       <Box display={"flex"} justifyContent={"center"}>
@@ -24,7 +24,7 @@ const Threads = () => {
             h={"120px"}
             w={"70%"}
             ml={"20px"}>
-            <form>
+            <form onSubmit={handlePost} encType="multipart/form-data">
               <Input
                 type="text"
                 placeholder="What's on your mind?"
@@ -41,16 +41,14 @@ const Threads = () => {
                 </label>
                 <Input
                   onChange={handleChange}
-                  name="file"
+                  name="image"
                   type="file"
                   id="img"
                   hidden
                 />
               </Box>
               <Box>
-                <Button type="submit" onClick={handlePost}>
-                  Post
-                </Button>
+                <Button type="submit">Post</Button>
               </Box>
             </form>
           </Box>
